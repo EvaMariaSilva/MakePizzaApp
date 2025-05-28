@@ -1,0 +1,89 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>homeMenu</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">homeMenu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content> -->
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Menú del Restaurante
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToCart()">
+        <ion-icon name="cart"></ion-icon>
+        <ion-badge color="danger" *ngIf="cartItemCount > 0">{{cartItemCount}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Sección de Pizzas -->
+  <ion-segment value="pizzas">
+    <ion-segment-button value="pizzas">
+      <ion-label>Pizzas</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="bebidas">
+      <ion-label>Bebidas</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Lista de Pizzas -->
+  <div class="menu-section">
+    <h2>Nuestras Pizzas</h2>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let pizza of pizzas">
+          <ion-card>
+            <img [src]="pizza.imagen" [alt]="pizza.nombre" />
+            <ion-card-header>
+              <ion-card-title>{{pizza.nombre}}</ion-card-title>
+              <ion-card-subtitle>{{pizza.sabor}} - {{pizza.tamano}}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <p class="price">${{pizza.precio}}</p>
+              <ion-button expand="block" (click)="openPizzaModal(pizza)">
+                <ion-icon name="add" slot="start"></ion-icon>
+                Agregar al Carrito
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Lista de Bebidas -->
+  <div class="menu-section">
+    <h2>Bebidas</h2>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let bebida of bebidas">
+          <ion-card>
+            <img [src]="bebida.imagen" [alt]="bebida.nombre" />
+            <ion-card-header>
+              <ion-card-title>{{bebida.nombre}}</ion-card-title>
+              <ion-card-subtitle>{{bebida.tamano}}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <p class="price">${{bebida.precio}}</p>
+              <ion-button expand="block" (click)="addBebidaToCart(bebida)">
+                <ion-icon name="add" slot="start"></ion-icon>
+                Agregar al Carrito
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

@@ -22,6 +22,18 @@ const routes: Routes = [
     path: 'edit',
     loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
   },
+  {
+    path: 'home-menu',
+    loadChildren: () => import('./home-menu/home-menu.module').then( m => m.HomeMenuPageModule)
+  },
+  {
+    path: 'cart',
+    loadChildren: () => import('./pages/cart/cart.module').then( m => m.CartPageModule)
+  },
+  {
+    path: 'order-confirmation',
+    loadChildren: () => import('./pages/order-confirmation/order-confirmation.module').then( m => m.OrderConfirmationPageModule)
+  },
 
 ];
 
