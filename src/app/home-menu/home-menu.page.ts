@@ -17,68 +17,6 @@ const dbToppins  = ref(db, 'toppins/');
   standalone:false,
 })
 export class HomeMenuPage implements OnInit {
-  // pizzas: any[] = [];
-  // bebida: any[] = [];
-  // toppins: any[] = [];
-
-  // // constructor() { }
-  // constructor(private router: Router, private loadingController: LoadingController, private alertController: AlertController) {
-  //     onValue(dbPizzas, (snapshot) => {
-  //       this.pizzas = [];
-  //       snapshot.forEach((childSnapshot) => {
-  //         this.pizzas.push({
-  //           id: childSnapshot.key,
-  //           nombre: childSnapshot.val().nombre,
-  //           imagen: childSnapshot.val().imagen,
-  //           sabor: childSnapshot.val().sabor,
-  //           tamano: childSnapshot.val().tamano,
-  //           precio: childSnapshot.val().precio,
-  //         });
-  //       });
-  //     }, {
-  //       onlyOnce: false
-  //     });
-
-  //     onValue(dbBebidas, (snapshot) => {
-  //       this.bebida = [];
-  //       snapshot.forEach((childSnapshot) => {
-  //         this.bebida.push({
-  //           id: childSnapshot.key,
-  //           nombre: childSnapshot.val().nombre,
-  //           tamano: childSnapshot.val().tamano,
-  //           imagen: childSnapshot.val().imagen,
-  //           precio: childSnapshot.val().precio,
-  //         });
-  //       });
-  //     }, {
-  //       onlyOnce: false
-  //     });
-
-  //     onValue(dbtoppins, (snapshot) => {
-  //       this.toppins = [];
-  //       snapshot.forEach((childSnapshot) => {
-  //         this.toppins.push({
-  //           id: childSnapshot.key,
-  //           nombre: childSnapshot.val().nombre,
-  //           tamano: childSnapshot.val().tamano,
-  //           imagen: childSnapshot.val().imagen,
-  //           precio: childSnapshot.val().precio,
-  //         });
-  //       });
-  //     }, {
-  //       onlyOnce: false
-  //     });
-
-
-
-  //   }
-
-    
-
-    
-
-  // ngOnInit() {
-  // }
 
   pizzas: any[] = [];
   bebidas: any[] = [];
@@ -167,31 +105,61 @@ export class HomeMenuPage implements OnInit {
     await toast.present();
   }
 
-  // Abrir modal para pizzas
-  async openPizzaModal(pizza: any) {
-    const modal = await this.modalController.create({
-      component: ToppinsModalComponent,
-      componentProps: {
-        pizza: pizza,
-        toppins: this.toppins
-      }
+
+//   async openPizzaModal(pizza: any) {
+//   const modal = await this.modalController.create({
+//     component: ToppinsModalComponent,
+//     componentProps: {
+//       pizza: pizza,
+//       toppins: this.toppins
+//     },
+//     cssClass: 'toppins-modal', // Agregar esta línea
+//     breakpoints: [0, 0.5, 0.8],
+//     initialBreakpoint: 0.8
+//   });
+
+//   await modal.present();
+
+//   const { data } = await modal.onDidDismiss();
+//   if (data && data.confirmed) {
+//     this.cartService.addToCart(pizza, 'pizza', data.selectedToppins);
+    
+//     const toast = await this.alertController.create({
+//       message: `${pizza.nombre} agregada al carrito`,
+//       // duration: 2000,
+//       // position: 'bottom',
+//       buttons: ['OK']
+//     });
+//     await toast.present();
+//   }
+// }
+async openPizzaModal(pizza: any) {
+  const modal = await this.modalController.create({
+    component: ToppinsModalComponent,
+    componentProps: {
+      pizza: pizza,
+      toppins: this.toppins
+    },
+    cssClass: 'modal-fixed-height',
+    showBackdrop: true,
+    backdropDismiss: false
+  });
+
+  await modal.present();
+
+  const { data } = await modal.onDidDismiss();
+  if (data && data.confirmed) {
+    this.cartService.addToCart(pizza, 'pizza', data.selectedToppins);
+    
+    const toast = await this.alertController.create({
+      message: `${pizza.nombre} agregada al carrito`,
+      // duration: 2000,
+      // position: 'bottom',
+      buttons: ['OK']
     });
-
-    await modal.present();
-
-    const { data } = await modal.onDidDismiss();
-    if (data && data.confirmed) {
-      this.cartService.addToCart(pizza, 'pizza', data.selectedToppins);
-      
-      const toast = await this.alertController.create({
-        message: `${pizza.nombre} agregada al carrito`,
-        // duration: 2000,
-        // position: 'bottom',
-        buttons: ['OK']
-      });
-      await toast.present();
-    }
+    await toast.present();
   }
+}
 
   goToCart() {
     this.router.navigate(['/cart']);

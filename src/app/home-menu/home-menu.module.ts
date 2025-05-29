@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { HomeMenuPageRoutingModule } from './home-menu-routing.module';
 
 import { HomeMenuPage } from './home-menu.page';
+import { ToppinsModalComponent } from '../components/toppins-modal/toppins-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { HomeMenuPage } from './home-menu.page';
     IonicModule,
     HomeMenuPageRoutingModule
   ],
-  declarations: [HomeMenuPage]
+  declarations: [HomeMenuPage,ToppinsModalComponent ]
 })
 export class HomeMenuPageModule {}
