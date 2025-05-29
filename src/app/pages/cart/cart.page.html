@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>cart</ion-title>
   </ion-toolbar>
@@ -10,4 +10,93 @@
       <ion-title size="large">cart</ion-title>
     </ion-toolbar>
   </ion-header>
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mi Carrito</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearCart()" *ngIf="cartItems.length > 0">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Si el carrito está vacío -->
+  <div *ngIf="cartItems.length === 0" class="empty-cart">
+    <ion-icon name="cart-outline"></ion-icon>
+    <h2>Tu carrito está vacío</h2>
+    <p>Agrega algunos productos para comenzar</p>
+    <ion-button (click)="goBack()">
+      Volver al Menú
+    </ion-button>
+  </div>
+
+  <!-- Lista de items en el carrito -->
+  <ion-list *ngIf="cartItems.length > 0">
+    <ion-item-sliding *ngFor="let item of cartItems; let i = index">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img [src]="item.imagen || 'assets/default-food.jpg'" [alt]="item.nombre">
+        </ion-thumbnail>
+        
+        <ion-label>
+          <h2>{{item.nombre}}</h2>
+          <p *ngIf="item.tipo === 'pizza'">{{getToppinsText(item)}}</p>
+          <p class="price">${{item.precio}} c/u</p>
+          <p class="subtotal">Subtotal: ${{item.subtotal}}</p>
+        </ion-label>
+
+        <ion-item slot="end" lines="none">
+          <ion-label>Cantidad:</ion-label>
+          <ion-select 
+            [value]="item.cantidad" 
+            (ionChange)="updateQuantity(i, $event)"
+            interface="popover">
+            <ion-select-option *ngFor="let n of [1,2,3,4,5,6,7,8,9,10]" [value]="n">
+              {{n}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="removeItem(i)">
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- Resumen del pedido -->
+  <ion-card *ngIf="cartItems.length > 0" class="order-summary">
+    <ion-card-header>
+      <ion-card-title>Resumen del Pedido</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label>Total de Items:</ion-label>
+        <ion-label slot="end">{{cartItems.length}}</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label><strong>Total a Pagar:</strong></ion-label>
+        <ion-label slot="end" class="total"><strong>${{total}}</strong></ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+<!-- Footer con botón de procesar orden -->
+<ion-footer *ngIf="cartItems.length > 0">
+  <ion-toolbar>
+    <ion-button expand="full" (click)="processOrder()" size="large">
+      <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+      Procesar Orden (${{total}})
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
